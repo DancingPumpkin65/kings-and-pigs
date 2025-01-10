@@ -1,3 +1,5 @@
+let canJump = true
+
 window.addEventListener('keydown', (event) => {
   if (player.preventInput) return
   switch (event.key) {
@@ -20,8 +22,14 @@ window.addEventListener('keydown', (event) => {
           return
         }
       }
-      if (player.velocity.y === 0) player.velocity.y = -25
-
+      // Fixed jump bug: Prevent multiple jumps by using canJump flag
+      if (player.velocity.y === 0 && canJump == true) {
+        canJump = false
+        player.velocity.y = -25
+        setTimeout(() => {
+              canJump = true
+              }, 450)
+      }
       break
     case 'a':
       // move player to the left
@@ -30,6 +38,9 @@ window.addEventListener('keydown', (event) => {
     case 'd':
       // move player to the right
       keys.d.pressed = true
+      break
+
+    default:
       break
   }
 })
